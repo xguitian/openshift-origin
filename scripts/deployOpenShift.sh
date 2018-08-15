@@ -223,6 +223,9 @@ $nodegroup
 [new_nodes]
 EOF
 
+# FIXME: Extiting early to walk through the file
+exit 0
+
 echo $(date) " - Cloning openshift-ansible repo for use in installation"
 
 runuser -l $SUDOUSER -c "git clone -b release-3.9 https://github.com/openshift/openshift-ansible /home/$SUDOUSER/openshift-ansible"
