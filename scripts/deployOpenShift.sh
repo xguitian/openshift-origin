@@ -223,9 +223,6 @@ $nodegroup
 [new_nodes]
 EOF
 
-# FIXME: Extiting early to walk through the file
-exit 0
-
 echo $(date) " - Cloning openshift-ansible repo for use in installation"
 
 runuser -l $SUDOUSER -c "git clone -b release-3.9 https://github.com/openshift/openshift-ansible /home/$SUDOUSER/openshift-ansible"
@@ -262,6 +259,43 @@ then
 		exit 13
 	fi
 fi
+
+# FIXME: Extiting early to walk through the file and saving envvars
+cat > /home/$SUDOUSER/envvars.sh <<EOF
+export SUDOUSER=${SUDOUSER}
+export PASSWORD="${PASSWORD}"
+export PRIVATEKEY=${PRIVATEKEY}
+export MASTER=${MASTER}
+export MASTERPUBLICIPHOSTNAME=${MASTERPUBLICIPHOSTNAME}
+export MASTERPUBLICIPADDRESS=${MASTERPUBLICIPADDRESS}
+export INFRA=${INFRA}
+export NODE=${NODE}
+export NODECOUNT=${NODECOUNT}
+export INFRACOUNT=${INFRACOUNT}
+export MASTERCOUNT=${MASTERCOUNT}
+export ROUTING=${ROUTING}
+export REGISTRYSA=${REGISTRYSA}
+export ACCOUNTKEY="${ACCOUNTKEY}"
+export TENANTID=${TENANTID}
+export SUBSCRIPTIONID=${SUBSCRIPTIONID}
+export AADCLIENTID=${AADCLIENTID}
+export AADCLIENTSECRET="${AADCLIENTSECRET}"
+export RESOURCEGROUP=${RESOURCEGROUP}
+export LOCATION=${LOCATION}
+export METRICS=${METRICS}
+export LOGGING=${LOGGING}
+export AZURE=${AZURE}
+
+export STORAGEKIND=${STORAGEKIND}
+export CLOUD=${CLOUD}
+export MASTERLOOP=${MASTERLOOP}
+export INFRALOOP=${INFRALOOP}
+export NODELOOP=${NODELOOP}
+export CLOUDNAME=${CLOUDNAME}
+export HAMODE=${HAMODE}
+export CLOUDKIND=${CLOUDKIND}
+EOF
+exit 0
 
 # Initiating installation of OpenShift Origin prerequisites using Ansible Playbook
 echo $(date) " - Running Prerequisites via Ansible Playbook"
